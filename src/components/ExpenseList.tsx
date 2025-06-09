@@ -6,13 +6,12 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Trash2, Search, Calendar, Eye } from 'lucide-react';
 import { IndianRupee } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
 import type { Expense } from '@/pages/Index';
 
 interface ExpenseListProps {
   expenses: Expense[];
   onDelete: (id: string) => void;
-  onUpdate: (id: string, expense: Omit<Expense, 'id' | 'createdAt'>) => void;
+  onUpdate: (id: string, expense: Omit<Expense, 'id' | 'createdAt' | 'user_id'>) => void;
   showAll: boolean;
 }
 
@@ -23,19 +22,20 @@ export const ExpenseList: React.FC<ExpenseListProps> = ({
   showAll 
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const { toast } = useToast();
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const filteredExpenses = expenses.filter(expense =>
     expense.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
     expense.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleDelete = (id: string) => {
-    onDelete(id);
-    toast({
-      title: "Expense Deleted",
-      description: "The expense has been removed from your records",
-    });
+  const handleDelete = async (id: string) => {
+    setDeletingId(id);
+    try {
+      await onDelete(id);
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   const getCategoryColor = (category: string) => {
@@ -116,6 +116,7 @@ export const ExpenseList: React.FC<ExpenseListProps> = ({
                     size="sm"
                     onClick={() => handleDelete(expense.id)}
                     className="ml-4"
+                    disabled={deletingId === expense.id}
                   >
                     <Trash2 className="w-4 h-4" />
                   </Button>

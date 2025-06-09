@@ -7,7 +7,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar, Tag, FileText } from 'lucide-react';
 import { IndianRupee } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
 
 interface ExpenseFormProps {
   onSubmit: (expense: { amount: number; description: string; category: string; date: string }) => void;
@@ -31,36 +30,32 @@ export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onSubmit }) => {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!amount || !description || !category) {
-      toast({
-        title: "Missing Information",
-        description: "Please fill in all required fields",
-        variant: "destructive"
-      });
       return;
     }
 
-    onSubmit({
-      amount: parseFloat(amount),
-      description,
-      category,
-      date
-    });
+    setIsSubmitting(true);
+    
+    try {
+      await onSubmit({
+        amount: parseFloat(amount),
+        description,
+        category,
+        date
+      });
 
-    setAmount('');
-    setDescription('');
-    setCategory('');
-    setDate(new Date().toISOString().split('T')[0]);
-
-    toast({
-      title: "Expense Added",
-      description: "Your expense has been successfully recorded",
-    });
+      setAmount('');
+      setDescription('');
+      setCategory('');
+      setDate(new Date().toISOString().split('T')[0]);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -91,6 +86,7 @@ export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onSubmit }) => {
                 placeholder="0.00"
                 className="text-lg"
                 required
+                disabled={isSubmitting}
               />
             </div>
 
@@ -105,6 +101,7 @@ export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onSubmit }) => {
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 required
+                disabled={isSubmitting}
               />
             </div>
           </div>
@@ -114,7 +111,7 @@ export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onSubmit }) => {
               <Tag className="w-4 h-4" />
               Category *
             </Label>
-            <Select value={category} onValueChange={setCategory} required>
+            <Select value={category} onValueChange={setCategory} required disabled={isSubmitting}>
               <SelectTrigger>
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
@@ -139,14 +136,16 @@ export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onSubmit }) => {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="What did you spend on?"
               required
+              disabled={isSubmitting}
             />
           </div>
 
           <Button 
             type="submit" 
             className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3"
+            disabled={isSubmitting}
           >
-            Add Expense
+            {isSubmitting ? 'Adding...' : 'Add Expense'}
           </Button>
         </form>
       </CardContent>

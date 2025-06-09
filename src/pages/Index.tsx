@@ -5,9 +5,10 @@ import { ExpenseForm } from '@/components/ExpenseForm';
 import { ExpenseList } from '@/components/ExpenseList';
 import { ExpenseChart } from '@/components/ExpenseChart';
 import { ExpenseStats } from '@/components/ExpenseStats';
+import { useExpenses } from '@/hooks/useExpenses';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { Plus, BarChart3, List, Home, LogOut, User, Wallet } from 'lucide-react';
+import { Plus, BarChart3, List, Home, LogOut, Wallet } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 
@@ -25,7 +26,7 @@ const Index = () => {
   const { user, signOut, loading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const { expenses, loading: expensesLoading, addExpense, deleteExpense, updateExpense } = useExpenses();
   const [activeTab, setActiveTab] = useState('dashboard');
 
   // Redirect to auth if not authenticated
@@ -34,21 +35,6 @@ const Index = () => {
       navigate('/auth');
     }
   }, [user, loading, navigate]);
-
-  useEffect(() => {
-    if (user) {
-      const savedExpenses = localStorage.getItem(`expenses_${user.id}`);
-      if (savedExpenses) {
-        setExpenses(JSON.parse(savedExpenses));
-      }
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (user) {
-      localStorage.setItem(`expenses_${user.id}`, JSON.stringify(expenses));
-    }
-  }, [expenses, user]);
 
   const handleSignOut = async () => {
     try {
@@ -67,34 +53,8 @@ const Index = () => {
     }
   };
 
-  const addExpense = (expense: Omit<Expense, 'id' | 'createdAt' | 'user_id'>) => {
-    if (!user) return;
-    
-    const newExpense: Expense = {
-      ...expense,
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString(),
-      user_id: user.id,
-    };
-    setExpenses(prev => [newExpense, ...prev]);
-  };
-
-  const deleteExpense = (id: string) => {
-    setExpenses(prev => prev.filter(expense => expense.id !== id));
-  };
-
-  const updateExpense = (id: string, updatedExpense: Omit<Expense, 'id' | 'createdAt' | 'user_id'>) => {
-    if (!user) return;
-    
-    setExpenses(prev => prev.map(expense => 
-      expense.id === id 
-        ? { ...expense, ...updatedExpense }
-        : expense
-    ));
-  };
-
-  // Show loading while checking auth
-  if (loading) {
+  // Show loading while checking auth or loading expenses
+  if (loading || expensesLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
         <div className="text-center">
@@ -123,16 +83,9 @@ const Index = () => {
               </div>
               <div>
                 <h1 className="text-xl font-bold text-gray-800">Expense Manager</h1>
-                {/* <p className="text-sm text-gray-600">Personal Finance Manager</p> */}
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <div className="text-right">
-                {/* <div className="flex items-center gap-2">
-                  <User className="w-4 h-4 text-gray-600" />
-                  <span className="text-sm text-gray-600">{user.email}</span>
-                </div> */}
-              </div>
               <Button variant="outline" onClick={handleSignOut} className="flex items-center gap-2">
                 <LogOut className="w-4 h-4" />
                 Logout
