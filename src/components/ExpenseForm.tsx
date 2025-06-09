@@ -5,7 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, DollarSign, Tag, FileText } from 'lucide-react';
+import { Calendar, Tag, FileText } from 'lucide-react';
+import { IndianRupee } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface ExpenseFormProps {
@@ -66,11 +67,11 @@ export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onSubmit }) => {
     <Card className="max-w-2xl mx-auto shadow-lg">
       <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-t-lg">
         <CardTitle className="flex items-center gap-2">
-          <DollarSign className="w-6 h-6" />
+          <IndianRupee className="w-6 h-6" />
           Add New Expense
         </CardTitle>
         <CardDescription className="text-blue-100">
-          Record your expense details below
+          Record your expense details in Indian Rupees
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6">
@@ -78,8 +79,8 @@ export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onSubmit }) => {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label htmlFor="amount" className="flex items-center gap-2">
-                <DollarSign className="w-4 h-4" />
-                Amount *
+                <IndianRupee className="w-4 h-4" />
+                Amount (₹) *
               </Label>
               <Input
                 id="amount"

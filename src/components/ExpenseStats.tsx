@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { TrendingUp, TrendingDown, DollarSign, Calendar } from 'lucide-react';
+import { TrendingUp, TrendingDown, Calendar } from 'lucide-react';
+import { IndianRupee } from 'lucide-react';
 import type { Expense } from '@/pages/Index';
 
 interface ExpenseStatsProps {
@@ -52,12 +53,12 @@ export const ExpenseStats: React.FC<ExpenseStatsProps> = ({ expenses }) => {
       <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg flex items-center gap-2">
-            <DollarSign className="w-5 h-5" />
+            <IndianRupee className="w-5 h-5" />
             Total Expenses
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold">${totalExpenses.toFixed(2)}</div>
+          <div className="text-3xl font-bold">₹{totalExpenses.toFixed(2)}</div>
           <p className="text-blue-100 text-sm mt-1">All time</p>
         </CardContent>
       </Card>
@@ -70,7 +71,7 @@ export const ExpenseStats: React.FC<ExpenseStatsProps> = ({ expenses }) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold">${thisMonthExpenses.toFixed(2)}</div>
+          <div className="text-3xl font-bold">₹{thisMonthExpenses.toFixed(2)}</div>
           <div className="flex items-center gap-1 mt-1">
             {monthlyChange >= 0 ? (
               <TrendingUp className="w-4 h-4 text-green-200" />
@@ -92,7 +93,7 @@ export const ExpenseStats: React.FC<ExpenseStatsProps> = ({ expenses }) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold">${thisWeekExpenses.toFixed(2)}</div>
+          <div className="text-3xl font-bold">₹{thisWeekExpenses.toFixed(2)}</div>
           <p className="text-purple-100 text-sm mt-1">Last 7 days</p>
         </CardContent>
       </Card>
@@ -105,7 +106,7 @@ export const ExpenseStats: React.FC<ExpenseStatsProps> = ({ expenses }) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold">${averagePerDay.toFixed(2)}</div>
+          <div className="text-3xl font-bold">₹{averagePerDay.toFixed(2)}</div>
           <p className="text-orange-100 text-sm mt-1">Per day</p>
         </CardContent>
       </Card>

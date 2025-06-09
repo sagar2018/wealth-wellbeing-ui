@@ -62,7 +62,7 @@ export const ExpenseChart: React.FC<ExpenseChartProps> = ({ expenses }) => {
             Expense Analytics
           </CardTitle>
           <CardDescription className="text-indigo-100">
-            Visual breakdown of your spending
+            Visual breakdown of your spending in ₹
           </CardDescription>
         </CardHeader>
         <CardContent className="p-6">
@@ -84,7 +84,7 @@ export const ExpenseChart: React.FC<ExpenseChartProps> = ({ expenses }) => {
           Expense Analytics
         </CardTitle>
         <CardDescription className="text-indigo-100">
-          Visual breakdown of your spending patterns
+          Visual breakdown of your spending patterns in ₹
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6">
@@ -108,7 +108,7 @@ export const ExpenseChart: React.FC<ExpenseChartProps> = ({ expenses }) => {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value: number) => [`$${value.toFixed(2)}`, 'Amount']} />
+                <Tooltip formatter={(value: number) => [`₹${value.toFixed(2)}`, 'Amount']} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -122,7 +122,7 @@ export const ExpenseChart: React.FC<ExpenseChartProps> = ({ expenses }) => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
-                  <Tooltip formatter={(value: number) => [`$${value.toFixed(2)}`, 'Amount']} />
+                  <Tooltip formatter={(value: number) => [`₹${value.toFixed(2)}`, 'Amount']} />
                   <Legend />
                   <Bar dataKey="amount" fill="#8884d8" name="Monthly Expenses" />
                 </BarChart>

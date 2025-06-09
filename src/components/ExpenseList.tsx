@@ -4,7 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Trash2, Search, Calendar, DollarSign, Eye } from 'lucide-react';
+import { Trash2, Search, Calendar, Eye } from 'lucide-react';
+import { IndianRupee } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import type { Expense } from '@/pages/Index';
 
@@ -61,7 +62,7 @@ export const ExpenseList: React.FC<ExpenseListProps> = ({
           {showAll ? 'All Expenses' : 'Recent Expenses'}
         </CardTitle>
         <CardDescription className="text-green-100">
-          {showAll ? 'View and manage all your expenses' : 'Your latest expense records'}
+          {showAll ? 'View and manage all your expenses in ₹' : 'Your latest expense records in ₹'}
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6">
@@ -81,7 +82,7 @@ export const ExpenseList: React.FC<ExpenseListProps> = ({
 
         {filteredExpenses.length === 0 ? (
           <div className="text-center py-12">
-            <DollarSign className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <IndianRupee className="w-16 h-16 text-gray-300 mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-gray-600 mb-2">No expenses found</h3>
             <p className="text-gray-500">
               {searchTerm ? 'Try adjusting your search terms' : 'Start by adding your first expense'}
@@ -97,7 +98,7 @@ export const ExpenseList: React.FC<ExpenseListProps> = ({
                 <div className="flex-1">
                   <div className="flex items-start justify-between mb-2">
                     <h3 className="font-semibold text-gray-800">{expense.description}</h3>
-                    <span className="text-xl font-bold text-gray-900">${expense.amount.toFixed(2)}</span>
+                    <span className="text-xl font-bold text-gray-900">₹{expense.amount.toFixed(2)}</span>
                   </div>
                   <div className="flex items-center gap-4 text-sm text-gray-600">
                     <Badge className={getCategoryColor(expense.category)}>

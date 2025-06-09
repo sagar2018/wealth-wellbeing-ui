@@ -4,7 +4,6 @@ import { ExpenseForm } from '@/components/ExpenseForm';
 import { ExpenseList } from '@/components/ExpenseList';
 import { ExpenseChart } from '@/components/ExpenseChart';
 import { ExpenseStats } from '@/components/ExpenseStats';
-import { Header } from '@/components/Header';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Plus, BarChart3, List, Home } from 'lucide-react';
 
@@ -55,12 +54,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      <Header />
-      
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">Expense Manager</h1>
-          <p className="text-gray-600">Track and manage your expenses with ease</p>
+          <p className="text-gray-600">Track and manage your expenses in Indian Rupees</p>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
