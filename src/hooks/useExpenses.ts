@@ -35,7 +35,18 @@ export const useExpenses = () => {
         return;
       }
 
-      setExpenses(data || []);
+      // Transform the data to match our Expense interface
+      const transformedExpenses: Expense[] = (data || []).map(expense => ({
+        id: expense.id,
+        amount: expense.amount,
+        description: expense.description,
+        category: expense.category,
+        date: expense.date,
+        createdAt: expense.created_at, // Transform snake_case to camelCase
+        user_id: expense.user_id
+      }));
+
+      setExpenses(transformedExpenses);
     } catch (error) {
       console.error('Error fetching expenses:', error);
       toast({
