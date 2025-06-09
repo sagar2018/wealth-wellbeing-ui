@@ -123,15 +123,15 @@ const Index = () => {
               </div>
               <div>
                 <h1 className="text-xl font-bold text-gray-800">Expense Manager</h1>
-                <p className="text-sm text-gray-600">Personal Finance Manager</p>
+                {/* <p className="text-sm text-gray-600">Personal Finance Manager</p> */}
               </div>
             </div>
             <div className="flex items-center gap-4">
               <div className="text-right">
-                <div className="flex items-center gap-2">
+                {/* <div className="flex items-center gap-2">
                   <User className="w-4 h-4 text-gray-600" />
                   <span className="text-sm text-gray-600">{user.email}</span>
-                </div>
+                </div> */}
               </div>
               <Button variant="outline" onClick={handleSignOut} className="flex items-center gap-2">
                 <LogOut className="w-4 h-4" />
@@ -143,11 +143,6 @@ const Index = () => {
       </header>
 
       <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">Welcome back!</h2>
-          <p className="text-gray-600">Track and manage your expenses in Indian Rupees</p>
-        </div>
-
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-4 mb-8">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
@@ -156,7 +151,7 @@ const Index = () => {
             </TabsTrigger>
             <TabsTrigger value="add" className="flex items-center gap-2">
               <Plus className="w-4 h-4" />
-              Add Expense
+              Add Exp
             </TabsTrigger>
             <TabsTrigger value="list" className="flex items-center gap-2">
               <List className="w-4 h-4" />
